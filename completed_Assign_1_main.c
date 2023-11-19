@@ -258,8 +258,8 @@ if(num2<13){
 }
 
 */
-/*
- with less time
+
+/* //with less time
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
@@ -297,7 +297,6 @@ int main()
     gettimeofday(&start_time, NULL);
 
     int* ptr1 = malloc(sizeof(int) * (num1 + 1));
-
     num2 = func1(num1, ptr1);
 
     // Get the current time again
@@ -307,23 +306,16 @@ int main()
     long long elapsed_time = (end_time.tv_sec - start_time.tv_sec) * 1000000LL + (end_time.tv_usec - start_time.tv_usec);
 
     printf("The reversal bits are as follows:\n");
-    for (int i = num1; i >= 0; i--)
-    {
+    for (int i = num1; i >= 0; i--){
         printf("%d is ", i);
         for (int j = num2 - 1; j >= 0; j--)
         {
             printf("%d", (ptr1[i] >> j) & 1);
         }
-        printf("  %d\n", ptr1[i]);
-    }
+        printf("  %d\n", ptr1[i]);}
 
     printf("Elapsed Time: %lld microseconds\n", elapsed_time);
-
-    free(ptr1);
-
     return 0;
 }
 
-
 */
-
