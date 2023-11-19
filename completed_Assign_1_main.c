@@ -187,9 +187,80 @@ int main(void)
      return 0;
  }
 */
+
+// proper time
+/*#include <stdio.h>
+#include <stdlib.h>
+#include <sys/time.h>
+
+int func1(int num1, int *ptr)
+{
+    int num2;
+    int bits = 0;
+    int temp = num1;
+    while (temp > 0) {
+        bits++;
+        temp >>= 1;
+    }
+    num2 = bits;
+    while (num1 >= 0)
+    {
+        int deciValue = 0;
+        for (int i = 0; i < num2; i++) {
+            deciValue |= ((num1 >> i) & 1) << (num2 - 1 - i);
+        }
+        ptr[num1] = deciValue;
+        num1--;
+    }
+    return num2;
+}
+
+int main()
+{
+    int num1, num2;
+    printf("Enter a number: ");
+    scanf("%d", &num1);
+
+    // Get the current time
+    struct timeval start_time, end_time;
+    gettimeofday(&start_time, NULL);
+
+    int* ptr1 = malloc(sizeof(int) * (num1 + 1));
+
+    num2 = func1(num1, ptr1);
+if(num2<13){
+    // Get the current time again
+    gettimeofday(&end_time, NULL);
+
+    // Calculate the elapsed time in microseconds
+    long long elapsed_time = (end_time.tv_sec - start_time.tv_sec) * 1000000LL + (end_time.tv_usec - start_time.tv_usec);
+
+    printf("The reversal bits are as follows:\n");
+    for (int i = num1; i >= 0; i--)
+    {
+        printf("%d is ", i);
+        for (int j = num2 - 1; j >= 0; j--)
+        {
+            printf("%d", (ptr1[i] >> j) & 1);
+        }
+        printf("  %d\n", ptr1[i]);
+    }
+
+
+    printf("Elapsed Time: %lld microseconds\n", elapsed_time);
+
+    return 0;
+}
+    else
+    {
+        printf("ERROR:Max limit is 4095 \n");
+    }
+}
+
+*/
 /*
- time
- #include <stdio.h>
+ with less time
+#include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
@@ -252,4 +323,7 @@ int main()
 
     return 0;
 }
+
+
 */
+
