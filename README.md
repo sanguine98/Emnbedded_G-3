@@ -1,1 +1,1 @@
-# Emnbedded_G-3
+# Embedded_G-3
