@@ -128,7 +128,7 @@ while (num>0)
 
 return 0;
 } */
-#include<stdio.h>
+/*#include<stdio.h>
 
 int main()
 {
@@ -150,9 +150,9 @@ int main()
     }
 
     return 0;
-}
+}*/
 
-/* working
+// working
  #include<stdio.h>
  #include<stdlib.h>
 
@@ -170,18 +170,19 @@ int main()
  }
 
  int main()
- {
+{
      int num1, num2;
      printf("Enter a number: ");
      scanf("%d", &num1);
      printf("Enter the number of bits: ");
-     scanf("%d", &num2);
-
+    scanf("%d", &num2);
+    //num2 = num1 / 2;
+    
      int* ptr1 = malloc(sizeof(int) * (num1 + 1));
 
      func1(num1, num2, ptr1);
      
-     printf("The reversal bits are \n");
+     printf("The reversal bits are as follows:\n");
      
      for (int i = num1; i >= 0; i--) {
          printf("%d is ", i);
@@ -192,4 +193,3 @@ int main()
      }
      return 0;
  }
-*/
