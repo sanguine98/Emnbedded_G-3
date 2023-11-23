@@ -1,88 +1,64 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-// Function to process the array
-int array_process(int size, unsigned char *ptr, int n_bits) {
-    // Perform any processing needed on the array
-    // For example, printing the processed values
-    printf("Processed values in the array:\n");
-    for (int i = 0; i < size; i++) {
-        // Bitwise operations to reverse the specified number of bits
+int array_process(int size, unsigned char *ptr, unsigned char n_bits) 
+{
+    
+    for (int i = 0; i < size; i++) 
+    {
         unsigned char reversedValue = 0;
         for (int j = 0; j < n_bits; j++) {
-            reversedValue = (reversedValue << 1) | ((ptr[i] >> j) & 1);
-        }
+           reversedValue <<= 1;  
+           reversedValue |= (ptr[i] >> j) & 1; 
 
-        // Use a bitmask to protect the remaining bits
+     }
+     
         unsigned char bitmask = 0xFF << n_bits;
-        ptr[i] = (ptr[i] & bitmask) | reversedValue;
-
-        // Print the reversed bits;
-        for (int j = 7; j >= 0; j--) {
-            printf("%d", (ptr[i] >> j) & 1);
-        }
-        printf("\n");
+        ptr[i] &= bitmask;       
+        ptr[i] |= reversedValue;
     }
-    return n_bits; // Return the processed value if needed
+return 1;
+    
 }
 
-int main() {
+int main() 
+{
     int size;
-    int no_bits; // Change the type to int
-
-    // Prompt the user for the array size
+    unsigned char no_bits; 
     printf("Enter the size of the array: ");
     scanf("%d", &size);
 
-    if (size <= 1 || size > 9) {
+if (size <= 1 || size > 9) {
         printf("Invalid array size. Please enter a size between 0 and 8.\n");
-        return 1;
-    }
-
-    // Prompt the user for the number of bits
+        return -1;}
+    
     printf("Enter the number of bits to reverse: ");
-    scanf("%d", &no_bits); // Change the type to int
-
-    if (no_bits < 1 || no_bits > 8) {
+    scanf("%hhu", &no_bits);
+ if (no_bits < 1 || no_bits > 8) {
         printf("Invalid bit size. Please enter a size between 1 and 8.\n");
-        return 1;
+        return -1; 
     }
 
-    // Declare a pointer to unsigned char
-    unsigned char *ptr1;
-
-    // Allocate memory for the array
-    ptr1 = (unsigned char *)malloc(size * sizeof(unsigned char));
-
-    if (ptr1 == NULL) {
-        printf("Memory allocation failed.\n");
-        return 1;
-    }
-
-    // Prompt the user to enter values for the array
+    unsigned char ptr1[9];
+    
     printf("Enter %d values for the array (0 to 255):\n", size);
     for (int i = 0; i < size; i++) {
-        scanf("%hhu", &ptr1[i]); // Use %hhu to scan unsigned char
-
-        // Check if the individual value exceeds 255
+        scanf("%hhu", &ptr1[i]);
         if (ptr1[i] > 255) {
             printf("Error: Value at position %d exceeds 255.\n", i);
-            // You may choose to handle the error as needed
+            return -1; 
         }
     }
-
-    // Call the array_process function
+    printf("Before processing:\n");
+    for(int i =0 ; i<size ; i++){
+    printf("%d\n", ptr1[i]);
+    }
+    
     int result = array_process(size, ptr1, no_bits);
-
-    // Display the values after processing in the main function
+    
     printf("Values in the array after processing:\n");
     for (int i = 0; i < size; i++) {
         printf("%hhu ", ptr1[i]);
+        printf("\n");
     }
-    printf("\n");
-
-    // Free the allocated memory
-    free(ptr1);
-
-    return 0;
+        return 1;
 }
