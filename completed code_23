@@ -1,4 +1,4 @@
-#include <stdio.h>
+/* #include <stdio.h>
 
 int array_process(int size, unsigned char *ptr, unsigned char n_bits) 
 {
@@ -62,3 +62,86 @@ if (size <= 1 || size > 9) {
     }
         return 1;
 }
+*/
+
+#include <stdio.h>
+
+int array_process(int size, unsigned char *ptr, unsigned char n_bits) 
+{
+    
+    for (int i = 0; i < size; i++) 
+    {
+        unsigned char reversedValue = 0;
+        for (int j = 0; j < n_bits; j++) 
+    {
+           reversedValue <<= 1;  
+           reversedValue |= (ptr[i] >> j) & 1; 
+
+     }
+     
+        unsigned char bitmask = 0xFF << n_bits;
+        ptr[i] &= bitmask;       
+        ptr[i] |= reversedValue;
+    }
+    
+return 1;
+    
+}
+
+int main() 
+{
+    int size,res;
+    unsigned char no_bits; 
+    printf("Enter the size of the array: ");
+    scanf("%d", &size);
+
+if (size < 1 || size > 255) {
+        printf("Invalid array size. Please enter a size between 0 and 8.\n");
+        return -1;}
+    
+    printf("Enter the number of bits to reverse: ");
+    scanf("%hhu", &no_bits);
+ if (no_bits < 1 || no_bits > 8) {
+        printf("Invalid bit size. Please enter a size between 1 and 8.\n");
+        return -1; 
+    }
+
+    unsigned char ptr1[9];
+    
+    printf("Enter %d values for the array (0 to 255):\n", size);
+  
+        
+       for (int i = 0; i < size; i++) 
+    {
+        while(1)
+        {
+         scanf("%d" , &res);
+       
+         if( res > 255)
+        {
+            printf("Error --> enter the values less than 255\n");
+        }
+        else
+        {
+            ptr1[i] = res;
+            //printf("%hhu" ,ptr1[i] );
+            break;
+        }
+        
+        }
+    }
+    printf("Before processing:\n");
+    for(int i =0 ; i<size ; i++){
+    printf("%d\n", ptr1[i]);
+    }
+    
+    int result = array_process(size, ptr1, no_bits);
+    
+    printf("Values in the array after processing:\n");
+    for (int i = 0; i < size; i++) {
+        printf("%hhu ", ptr1[i]);
+        printf("\n");
+    }
+        return 1;
+        
+    }
