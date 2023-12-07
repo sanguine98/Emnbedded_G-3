@@ -179,9 +179,9 @@ int main() {
     // Prompt the user to choose the reversal method
     printf("Choose the reversal method (1 for MSB reversal, 0 for LSB reversal): ");
     scanf("%d", &args.bool_reversal);
-    
-     // Validate the reversal method
-    if (bool_reversal != 0 && bool_reversal != 1) {
+
+    // Validate the reversal method
+    if (args.bool_reversal != 0 && args.bool_reversal != 1) {
         printf("Invalid reversal method. Please enter 0 or 1.\n");
         return -1;
     }
@@ -224,14 +224,3 @@ int main() {
     return 0;
 }
 
-
-
-
-      
-
-  
-
-   
-
-    return 0;
-}
