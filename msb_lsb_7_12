@@ -116,91 +116,83 @@ int main() {
 
 //Complete code
 
-
-
 #include <stdio.h>
 
+// Struct to hold parameters for array_process function
+struct Args {
+    int size;
+    unsigned char *ptr;
+    unsigned char n_bits;
+    int bool_reversal;
+};
+
 // Function to reverse specified number of bits in each byte of an array
-int array_process(int size, unsigned char *ptr, unsigned char n_bits, int bool_reversal) {
-    if (bool_reversal) {
-        for (int i = 0; i < size; i++) {
-            // Initialize a variable to store the reversed value
-            unsigned char reversedValue = 0;
+int array_process(struct Args args) {
+    for (int i = 0; i < args.size; i++) {
+        // Initialize a variable to store the reversed value
+        unsigned char reversedValue = 0;
 
-            // Loop to reverse the specified number of bits
-            for (int j = 0; j < n_bits; j++) {
+        // Loop to reverse the specified number of bits
+        for (int j = 0; j < args.n_bits; j++) {
+            if (args.bool_reversal) {
                 reversedValue = reversedValue >> 1;  // Shift the reversed value to the left
-                reversedValue = (reversedValue | (ptr[i] << j) & 128); // Add the next bit from the original value
-            }
-
-            // Create a bitmask to clear the specified number of bits in the original value
-            unsigned char bitmask = 0xFF >> n_bits;
-            ptr[i] = ptr[i] & bitmask;  // Clear the specified number of bits in the original value
-            ptr[i] = ptr[i] | reversedValue;  // Set the reversed bits in the original value
-        }
-    } else {
-        for (int i = 0; i < size; i++) {
-            // Initialize a variable to store the reversed value
-            unsigned char reversedValue = 0;
-
-            // Loop to reverse the specified number of bits
-            for (int j = 0; j < n_bits; j++) {
+                reversedValue = (reversedValue | (args.ptr[i] << j) & 128); // Add the next bit from the original value
+            } else {
                 reversedValue = reversedValue << 1;  // Shift the reversed value to the left
-                reversedValue = (reversedValue | (ptr[i] >> j) & 1); // Add the next bit from the original value
+                reversedValue = (reversedValue | (args.ptr[i] >> j) & 1); // Add the next bit from the original value
             }
-
-            // Create a bitmask to clear the specified number of bits in the original value
-            unsigned char bitmask = 0xFF << n_bits;
-            ptr[i] = ptr[i] & bitmask;  // Clear the specified number of bits in the original value
-            ptr[i] = ptr[i] | reversedValue;  // Set the reversed bits in the original value
         }
+
+        // Create a bitmask to clear the specified number of bits in the original value
+        unsigned char bitmask = args.bool_reversal ? (0xFF >> args.n_bits) : (0xFF << args.n_bits);
+        args.ptr[i] = args.ptr[i] & bitmask;  // Clear the specified number of bits in the original value
+        args.ptr[i] = args.ptr[i] | reversedValue;  // Set the reversed bits in the original value
     }
 
     return 1;
 }
 
 int main() {
-    int size, res;
-    unsigned char no_bits;
-    int bool_reversal;
+    struct Args args;
+    int res;
 
     // Prompt the user to enter the size of the array
     printf("Enter the size of the array: ");
-    scanf("%d", &size);
+    scanf("%d", &args.size);
 
     // Validate the array size
-    if (size < 0 || size > 255) {
+    if (args.size < 0 || args.size > 255) {
         printf("Invalid array size. Please enter a size between 1 and 255.\n");
         return -1;
     }
 
     // Prompt the user to enter the number of bits to reverse
     printf("Enter the number of bits to reverse: ");
-    scanf("%hhu", &no_bits);
+    scanf("%hhu", &args.n_bits);
 
     // Validate the number of bits
-    if (no_bits < 0 || no_bits > 8) {
+    if (args.n_bits < 0 || args.n_bits > 8) {
         printf("Invalid bit size. Please enter a size between 1 and 8.\n");
         return -1;
     }
 
     // Prompt the user to choose the reversal method
     printf("Choose the reversal method (1 for MSB reversal, 0 for LSB reversal): ");
-    scanf("%d", &bool_reversal);
-
-    // Validate the reversal method
+    scanf("%d", &args.bool_reversal);
+    
+     // Validate the reversal method
     if (bool_reversal != 0 && bool_reversal != 1) {
         printf("Invalid reversal method. Please enter 0 or 1.\n");
         return -1;
     }
 
     // Declare an array to store user input values
-    unsigned char ptr1[size];
+    unsigned char ptr1[args.size];
 
     // Prompt the user to enter values for the array
-    printf("Enter %d values for the array (0 to 255):\n", size);
+    printf("Enter %d values for the array (0 to 255):\n", args.size);
 
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < args.size; i++) {
         // Loop until a valid value (0 to 255) is entered
         while (1) {
             scanf("%d", &res);
@@ -215,18 +207,31 @@ int main() {
 
     // Display the array before processing
     printf("Before processing:\n");
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < args.size; i++) {
         printf("%d\n", ptr1[i]);
     }
 
-    // Call the array_process function to reverse the specified number of bits
-    int result = array_process(size, ptr1, no_bits, bool_reversal);
+    // Set struct parameters and call the array_process function to reverse the specified number of bits
+    args.ptr = ptr1;
+    int result = array_process(args);
 
     // Display the array after processing
     printf("Values in the array after processing:\n");
-    for (int i = 0; i < size; i++) {
+    for (int i = 0; i < args.size; i++) {
         printf("%hhu\n", ptr1[i]);
     }
+
+    return 0;
+}
+
+
+
+
+      
+
+  
+
+   
 
     return 0;
 }
